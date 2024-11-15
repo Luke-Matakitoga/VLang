@@ -1,0 +1,9 @@
+int myNumber = 5;
+string myName = "Luke Matakitoga";
+
+print(myNumber);
+print(myName);
+
+print("Here's an embedded string!");
+
+print(7)
