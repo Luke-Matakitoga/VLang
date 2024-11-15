@@ -6,7 +6,9 @@ const TokenType = {
     KEYWORD: 'KEYWORD',
     LPAR: 'LPAR',
     RPAR: 'RPAR',
-    STRING: 'STRING'
+    STRING: 'STRING',
+    PLUS: 'PLUS',
+    MINUS: 'MINUS'
 };
 
 module.exports = TokenType;

@@ -32,8 +32,20 @@ function parse(toks){
                 // this is a variable being set!
                 var name = toks[current].Value;
                 current+=2;
-                var value = toks[current].Value;
-                varStack.push({"Type":keyword, "Name":name, "Value":value});
+                var expression = "";
+                var type = toks[current].Type;
+                while(toks[current].Type != TokenType.EOL){
+                    if(toks[current].Type || toks[current.Type] == TokenType.PLUS || toks[current.Type] == TokenType.MINUS){
+                        expression += toks[current].Value;
+                    }
+                    current++;
+                }
+                if(type == TokenType.NUM){
+                    varStack.push({"Type":keyword, "Name":name, "Value":eval(expression)});
+                }else{
+                    varStack.push({"Type":keyword, "Name":name, "Value":expression});
+                }
+                
                 current++;
                 continue;
             }

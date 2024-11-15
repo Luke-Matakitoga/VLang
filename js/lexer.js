@@ -53,6 +53,14 @@ function tokenise(source){
             toks.push({"Type": TokenType.RPAR, "Value": source[current]});
             current++;
             continue;
+        }else if(source[current] == '+'){
+            toks.push({"Type": TokenType.PLUS, "Value": source[current]});
+            current++;
+            continue;
+        }else if(source[current] == '-'){
+            toks.push({"Type": TokenType.MINUS, "Value": source[current]});
+            current++;
+            continue;
         }else if(source[current] == '"'){
             var string = "";
             current++;
