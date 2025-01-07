@@ -61,6 +61,14 @@ function tokenise(source){
             toks.push({"Type": TokenType.MINUS, "Value": source[current]});
             current++;
             continue;
+        }else if(source[current] == '/'){
+            toks.push({"Type": TokenType.DIVIDE, "Value": source[current]});
+            current++;
+            continue;
+        }else if(source[current] == '*'){
+            toks.push({"Type": TokenType.MULTIPLY, "Value": source[current]});
+            current++;
+            continue;
         }else if(source[current] == '"'){
             var string = "";
             current++;

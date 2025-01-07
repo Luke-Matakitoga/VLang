@@ -1,11 +1,9 @@
-int myNumber = 5 + 2;
+int myNumber = 5;
+int yourNumber = 5;
 
-print("5 + 2 is");
+int ourNumber = (myNumber + yourNumber) * 2;
 
-print(myNumber);
+print(ourNumber);
 
-int myOtherNumber = 5 - 2;
-
-print("5 - 2 is");
-
-print(myOtherNumber);
+int squaredNumber = square(5);
+print(squaredNumber);

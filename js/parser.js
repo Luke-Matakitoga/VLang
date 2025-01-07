@@ -1,6 +1,14 @@
 const TokenType = require('./token');
 
+var line = 1;
+
+systemMethods = [
+    {"identifier": "print", "code": (message) => {console.log(message)}},
+    {"identifier": "square", "code": (number) => {return number * number}}
+];
+
 function parse(toks){
+    line = 1;
     var current = 0;
     var varStack = [];
     while(current<toks.length){
@@ -13,7 +21,13 @@ function parse(toks){
                     current++;
                     if(toks[current].Type == TokenType.KEYWORD){
                         // This means the parameter is a keyword
-                        params = varStack.find(x => x.Name == toks[current].Value).Value;
+                        var variable = varStack.find(x => x.Name == toks[current].Value);
+                        if(variable != undefined){
+                            params = variable.Value;
+                        }else{
+                            Error(`V01 Variable ${toks[current].Value} not found.`);
+                            return;
+                        }
                     }else if(toks[current].Type == TokenType.STRING){
                         params = toks[current].Value;
                     }
@@ -22,29 +36,35 @@ function parse(toks){
                     }
                 }
                 // We've hit the right parenthesis, run the method!
-                switch(keyword){
-                    case "print":
-                        console.log(params);
-                        break;
+                if(systemMethods.find(m => m.identifier == keyword)){
+                    systemMethods.find(m => m.identifier == keyword).code(params);
                 }
+
                 continue;
             }else{
                 // this is a variable being set!
                 var name = toks[current].Value;
                 current+=2;
                 var expression = "";
-                var type = toks[current].Type;
                 while(toks[current].Type != TokenType.EOL){
-                    if(toks[current].Type || toks[current.Type] == TokenType.PLUS || toks[current.Type] == TokenType.MINUS){
+                    line++;
+                    if(toks[current].Type == TokenType.KEYWORD){
+                        var variable = varStack.find(x => x.Name == toks[current].Value);
+                        if(variable != undefined){
+                            expression += variable.Value;
+                        }else{
+                            Error(`ERR-V001: Variable ${toks[current].Value} not found.`, );
+                            return;
+                        }
+                    }
+                    else if(toks[current].Type || toks[current.Type] == TokenType.PLUS || toks[current.Type] == TokenType.MINUS|| toks[current.Type] == TokenType.DIVIDE || toks[current.Type] == TokenType.MULTIPLY){
                         expression += toks[current].Value;
                     }
                     current++;
                 }
-                if(type == TokenType.NUM){
-                    varStack.push({"Type":keyword, "Name":name, "Value":eval(expression)});
-                }else{
-                    varStack.push({"Type":keyword, "Name":name, "Value":expression});
-                }
+                var result = eval(expression) ?? expression;
+
+                varStack.push({"Type":keyword, "Name":name, "Value":eval(result)});
                 
                 current++;
                 continue;
@@ -54,6 +74,11 @@ function parse(toks){
             continue;
         }
     }
+}
+
+function Error(message){
+    red = "\x1b[31m";
+    console.log(`${red}ln${line} ${message}`);
 }
 
 module.exports = parse;

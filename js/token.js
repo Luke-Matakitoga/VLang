@@ -8,6 +8,8 @@ const TokenType = {
     RPAR: 'RPAR',
     STRING: 'STRING',
     PLUS: 'PLUS',
+    DIVIDE: 'DIVIDE',
+    MULTIPLY: 'MULTIPLY',
     MINUS: 'MINUS'
 };
 
